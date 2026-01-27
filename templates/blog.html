@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Featured Badge -->
+            {% if blog.is_featured %}
+            <span class="badge badge-warning mb-3">Featured</span>
+            {% endif %}
+
+            <!-- Blog Title -->
+            <h1 class="mb-3">{{ blog.title }}</h1>
+
+            <!-- Blog Meta Information -->
+            <div class="blog-meta mb-4">
+                <small class="text-muted">
+                    <i class="fas fa-user"></i> <strong>{{ blog.author }}</strong> | 
+                    <i class="fas fa-calendar"></i> {{ blog.created_at|date:"F d, Y" }} | 
+                    <i class="fas fa-tag"></i> <a href="/category/{{ blog.category.name }}/">{{ blog.category }}</a>
+                </small>
+            </div>
+
+            <!-- Featured Image -->
+            {% if blog.image %}
+            <img src="{{ blog.image }}" alt="{{ blog.title }}" class="img-fluid mb-4 rounded">
+            {% endif %}
+
+            <!-- Blog Description -->
+            <div class="blog-description bg-light p-3 rounded mb-4">
+                <p class="lead">{{ blog.description }}</p>
+            </div>
+
+            <!-- Blog Status -->
+            <div class="blog-status mb-4">
+                {% if blog.status == 1 %}
+                    <span class="badge badge-success">Published</span>
+                {% elif blog.status == 0 %}
+                    <span class="badge badge-secondary">Draft</span>
+                {% endif %}
+            </div>
+
+            <!-- Blog Content -->
+            <div class="blog-content">
+                {{ blog.content|safe }}
+            </div>
+
+            <!-- Blog Footer Meta -->
+            <hr>
+            <div class="blog-footer-meta mt-4">
+                <small class="text-muted">
+                    <i class="fas fa-edit"></i> Last Updated: {{ blog.updated_at|date:"F d, Y H:i" }}
+                </small>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">Blog Information</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Author:</strong> {{ blog.author }}</p>
+                    <p><strong>Category:</strong> <a href="/category/{{ blog.category.name }}/">{{ blog.category }}</a></p>
+                    <p><strong>Published:</strong> {{ blog.created_at|date:"F d, Y" }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

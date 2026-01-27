@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blogs',
+    'crispy_forms',
+    "crispy_bootstrap4",
+    'crispy_tailwind',
 ]
 
 MIDDLEWARE = [
@@ -120,3 +123,18 @@ STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_DIRS = [
     'blog_main/static',
 ]
+
+# Media files (User uploaded files)
+MEDIA_URL = '/uploads/'
+MEDIA_ROOT = BASE_DIR 
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = [
+    "bootstrap4",
+    "tailwind"
+]
+
+CRISPY_TEMPLATE_PACK = [
+    "bootstrap4",
+    "tailwind"
+]
+    
