@@ -1,0 +1,59 @@
+
+{% block extra_css %}
+<style>
+
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    position: absolute;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar h2 {
+    font-size: 1.2rem;
+    padding: 0 1rem;
+    margin-bottom: 2rem;
+    color: var(--accent-yellow);
+}
+
+.nav-link {
+    color: #a0a0a0;
+    text-decoration: none;
+    padding: 12px 1rem;
+    margin: 4px 0;
+    border-radius: 6px;
+    transition: 0.3s;
+    display: block;
+}
+
+.nav-link:hover, .nav-link.active {
+    background: #333;
+    color: var(--accent-yellow);
+}
+
+.nav-link.logout {
+    margin-top: auto;
+    color: #ff6b6b;
+}
+
+</style>
+
+{% endblock %}
+
+
+<aside class="sidebar">
+    <h2>Admin Panel</h2>
+    <nav style="display: flex; flex-direction: column; height: 100%;">
+        <a href="{% url 'dashboard/home' %}" class="nav-link {% if '/dashboard/home/' == request.path %}active{% endif %}">Dashboard</a>
+        <a href="{% url 'dashboard/category'%}" class = "nav-link {% if '/dashboard/category/' == request.path %}active{% endif %}" class="nav-link">Category</a>
+        <a href="{% url 'dashboard/blogs'%}" class = "nav-link {% if '/dashboard/blogs/' == request.path %}active{% endif %}" class="nav-link">Posts</a>
+        <a href="#" class="nav-link logout">Logout</a>
+
+    </nav>
+</aside>
+
+

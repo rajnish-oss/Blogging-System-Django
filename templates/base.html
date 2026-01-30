@@ -114,9 +114,11 @@
             font-size: 18px;
             color: #666;
         }
+
+
     </style>
-    
     {% block extra_css %}{% endblock %}
+    
 </head>
 <body>
     <div class="container">
@@ -139,6 +141,7 @@
                     <a class="btn btn-sm btn-warning" href="{% url 'login' %}">Login</a> &nbsp;
                     <a class="btn btn-sm btn-outline-secondary" href="{% url 'register' %}">Register</a>
                     {% else %}
+                    <a class="btn btn-sm btn-warning m-2" href="{% url 'dashboard/home' %}">Dashboard</a>
                     <a class="btn btn-sm btn-danger" href="{% url 'logout' %}">Logout</a>
                     {% endif %}
                 </div>
