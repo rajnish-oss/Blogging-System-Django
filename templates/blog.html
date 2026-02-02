@@ -2,72 +2,103 @@
 
 {% block content %}
 <div class="container mt-5">
-    <div class="row">
-        <div class="col-lg-8">
-            <!-- Featured Badge -->
-            {% if blog.is_featured %}
-            <span class="badge badge-warning mb-3">Featured</span>
-            {% endif %}
-
-            <!-- Blog Title -->
-            <h1 class="mb-3">{{ blog.title }}</h1>
-
-            <!-- Blog Meta Information -->
-            <div class="blog-meta mb-4">
-                <small class="text-muted">
-                    <i class="fas fa-user"></i> <strong>{{ blog.author }}</strong> | 
-                    <i class="fas fa-calendar"></i> {{ blog.created_at|date:"F d, Y" }} | 
-                    <i class="fas fa-tag"></i> <a href="/category/{{ blog.category.name }}/">{{ blog.category }}</a>
-                </small>
-            </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            
+            <!-- Header -->
+            <header class="mb-4">
+                 <h1 class="font-weight-bold mb-3" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 2.5rem; line-height: 1.1; color: var(--text-color);">{{ blog.title }}</h1>
+                 
+                 <!-- Author Info (X style) -->
+                 <div class="d-flex align-items-center mb-4">
+                     <div class="mr-3">
+                        <!-- Placeholder Avatar if no user image -->
+                        <div class="rounded-circle d-flex justify-content-center align-items-center text-white" style="width: 48px; height: 48px; font-size: 20px; font-weight: bold; background-color: #333;">
+                            {{ blog.author.username|slice:":1"|upper }}
+                        </div>
+                     </div>
+                     <div style="line-height: 1.2;">
+                         <div class="font-weight-bold" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: var(--text-color);">{{ blog.author.username }}</div>
+                         <div class="small" style="color: var(--text-muted);">@{{ blog.author.username }} · {{ blog.created_at|date:"M d, Y" }}</div>
+                     </div>
+                 </div>
+            </header>
 
             <!-- Featured Image -->
             {% if blog.image %}
-            <img src="{{ blog.image }}" alt="{{ blog.title }}" class="img-fluid mb-4 rounded">
+            <div class="mb-4">
+                <img src="/{{blog.image}}" alt="{{ blog.title }}" class="img-fluid rounded w-100" style="object-fit: cover; border: 1px solid var(--border-color);">
+            </div>
             {% endif %}
 
-            <!-- Blog Description -->
-            <div class="blog-description bg-light p-3 rounded mb-4">
-                <p class="lead">{{ blog.description }}</p>
+            <!-- Content -->
+            <article class="article-content mb-5" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Georgia, serif; font-size: 1.25rem; line-height: 1.6; color: var(--text-color);">
+                {{ blog.content|linebreaks }}
+            </article>
+            
+            <!-- Category Tag -->
+             <div class="mb-5">
+                <a href="/category/{{ blog.category.name }}/" class="badge p-2 border" style="background-color: transparent; color: var(--accent-color); border-color: var(--border-color) !important;">#{{ blog.category }}</a>
             </div>
 
-            <!-- Blog Status -->
-            <div class="blog-status mb-4">
-                {% if blog.status == 1 %}
-                    <span class="badge badge-success">Published</span>
-                {% elif blog.status == 0 %}
-                    <span class="badge badge-secondary">Draft</span>
+            <hr class="my-5" style="border-color: var(--border-color);">
+
+            <!-- Comments/Replies -->
+            <div class="comments-section">
+                <h4 class="font-weight-bold mb-4" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: var(--text-color);">Replies</h4>
+                
+                <!-- Add Comment -->
+                {% if user.is_authenticated %}
+                <div class="d-flex mb-5">
+                     <div class="mr-3">
+                        <div class="rounded-circle d-flex justify-content-center align-items-center text-white" style="width: 40px; height: 40px; background-color: #333;">
+                             {{ user.username|slice:":1"|upper }}
+                        </div>
+                     </div>
+                     <div class="flex-grow-1">
+                        <form action="{% url 'add_comment' blog.slug %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group mb-2">
+                                <textarea name="content" class="form-control border-0" rows="2" placeholder="Post your reply" style="resize: none; border-radius: 12px; background-color: #16181c; color: var(--text-color);"></textarea>
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary rounded-pill px-4 font-weight-bold" style="background-color: var(--accent-color); border: none;">Reply</button>
+                            </div>
+                        </form>
+                     </div>
+                </div>
+                {% else %}
+                    <div class="text-center p-4 rounded mb-4" style="background-color: #16181c;">
+                        <p class="mb-2 font-weight-bold" style="color: var(--text-color);">Join the conversation</p>
+                        <p class="mb-3" style="color: var(--text-muted);">Sign in to post your reply</p>
+                        <a href="{% url 'login' %}" class="btn btn-primary rounded-pill px-4" style="background-color: var(--accent-color); border: none;">Log in</a>
+                    </div>
                 {% endif %}
-            </div>
 
-            <!-- Blog Content -->
-            <div class="blog-content">
-                {{ blog.content|safe }}
-            </div>
-
-            <!-- Blog Footer Meta -->
-            <hr>
-            <div class="blog-footer-meta mt-4">
-                <small class="text-muted">
-                    <i class="fas fa-edit"></i> Last Updated: {{ blog.updated_at|date:"F d, Y H:i" }}
-                </small>
-            </div>
-        </div>
-
-        <!-- Sidebar -->
-        <div class="col-lg-4">
-            <div class="card mb-4">
-                <div class="card-header bg-dark text-white">
-                    <h5 class="mb-0">Blog Information</h5>
+                <!-- Comment List -->
+                {% for comment in comments %}
+                <div class="media mb-4 border-bottom pb-3" style="border-color: var(--border-color) !important;">
+                     <div class="mr-3">
+                        <div class="rounded-circle d-flex justify-content-center align-items-center text-white" style="width: 40px; height: 40px; font-weight: bold; background-color: #333;">
+                            {{ comment.user.username|slice:":1"|upper }}
+                        </div>
+                     </div>
+                    <div class="media-body">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <div>
+                                <span class="font-weight-bold" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: var(--text-color);">{{ comment.user.username }}</span>
+                                <span class="small ml-1" style="color: var(--text-muted);">@{{ comment.user.username }} · {{ comment.created_at|date:"M d" }}</span>
+                            </div>
+                        </div>
+                        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 15px; line-height: 1.5; color: var(--text-color);">{{ comment.content }}</div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <p><strong>Author:</strong> {{ blog.author }}</p>
-                    <p><strong>Category:</strong> <a href="/category/{{ blog.category.name }}/">{{ blog.category }}</a></p>
-                    <p><strong>Published:</strong> {{ blog.created_at|date:"F d, Y" }}</p>
-                </div>
+                {% empty %}
+                <div class="text-center py-4" style="color: var(--text-muted);">No replies yet. Be the first to reply!</div>
+                {% endfor %}
             </div>
+
         </div>
     </div>
 </div>
-
 {% endblock %}

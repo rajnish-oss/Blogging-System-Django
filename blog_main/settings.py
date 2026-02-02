@@ -126,7 +126,7 @@ STATICFILES_DIRS = [
 ]
 
 # Media files (User uploaded files)
-MEDIA_URL = '/uploads/'
+MEDIA_URL = ''
 MEDIA_ROOT = BASE_DIR 
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = [

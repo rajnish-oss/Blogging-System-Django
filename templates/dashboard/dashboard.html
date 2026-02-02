@@ -98,12 +98,12 @@ body {
                 <h1 style="margin: 0;">Overview</h1>
                 <p style="color: #666; margin-top: 5px;">Welcome back to your dashboard.</p>
             </div>
-            <button class="btn-primary">+ New Post</button>
+            <a href="{% url 'add_blog' %}" class="btn-primary" style="text-decoration: none;">+ New Article</a>
         </header>
 
         <div class="stat-grid">
             <div class="stat-card">
-                <small style="text-transform: uppercase; letter-spacing: 1px;">Total Posts</small>
+                <small style="text-transform: uppercase; letter-spacing: 1px;">Total Articles</small>
                 <div class="stat-value">{{ blog_count|default:"24" }}</div>
             </div>
             <div class="stat-card">

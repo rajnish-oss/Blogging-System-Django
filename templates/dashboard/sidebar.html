@@ -50,7 +50,7 @@
     <nav style="display: flex; flex-direction: column; height: 100%;">
         <a href="{% url 'dashboard/home' %}" class="nav-link {% if '/dashboard/home/' == request.path %}active{% endif %}">Dashboard</a>
         <a href="{% url 'dashboard/category'%}" class = "nav-link {% if '/dashboard/category/' == request.path %}active{% endif %}" class="nav-link">Category</a>
-        <a href="{% url 'dashboard/blogs'%}" class = "nav-link {% if '/dashboard/blogs/' == request.path %}active{% endif %}" class="nav-link">Posts</a>
+        <a href="{% url 'dashboard/blogs'%}" class = "nav-link {% if '/dashboard/blogs/' == request.path %}active{% endif %}" class="nav-link">Articles</a>
         <a href="#" class="nav-link logout">Logout</a>
 
     </nav>
