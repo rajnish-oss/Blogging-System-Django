@@ -23,7 +23,10 @@ class Blog(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True) #auth.User(max_length=255)
     image = models.ImageField(upload_to='uploads/%Y/%m/%d/')
     description = models.TextField(max_length=255)
-    status = models.IntegerField(choices=StatusChoices, default=StatusChoices.DRAFT)
+    status = models.IntegerField(
+        choices=StatusChoices.choices,
+        default=StatusChoices.DRAFT,
+     )
     is_featured = models.BooleanField(default=False)
     content = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
