@@ -9,6 +9,7 @@
     <title>{% block title %}Article Website{% endblock %}</title>
     <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{% static 'css/blog.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bot.css' %}" rel="stylesheet">
     
     <style>
         :root {
@@ -215,6 +216,137 @@
             color: var(--text-color);
             border-color: var(--border-color);
         }
+
+        #chat-bot-container {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        z-index: 1200;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        .chat-toggle-btn {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: linear-gradient(180deg, #1d9bf0, #1a8cd8);
+        color: #fff;
+        border: none;
+        box-shadow: 0 6px 20px rgba(27,31,35,0.3);
+        cursor: pointer;
+        font-size: 20px;
+        }
+
+        .chat-window {
+        width: 320px;
+        max-height: 420px;
+        display: flex;
+        flex-direction: column;
+        background: #0f1112;
+        border: 1px solid #2f3336;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+        overflow: hidden;
+        margin-bottom: 12px;
+        }
+
+        .chat-bot-closed .chat-window {
+        display: none;
+        }
+
+        .chat-toggle-close{
+            display: none;
+        }
+
+        .chat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 12px;
+        border-bottom: 1px solid #2f3336;
+        color: #e7e9ea;
+        background: transparent;
+        }
+
+        .chat-title {
+        font-weight: 700;
+        }
+
+        .chat-close-btn {
+        background: transparent;
+        border: none;
+        color: #e7e9ea;
+        font-size: 18px;
+        cursor: pointer;
+        }
+
+        .chat-messages {
+        padding: 12px;
+        overflow-y: auto;
+        flex: 1 1 auto;
+        color: #e7e9ea;
+        font-size: 14px;
+        }
+
+        .chat-message {
+        margin-bottom: 10px;
+        display: block;
+        }
+
+        .chat-message.user {
+        text-align: right;
+        }
+
+        .chat-message .bubble {
+        display: inline-block;
+        padding: 8px 12px;
+        border-radius: 12px;
+        max-width: 80%;
+        }
+
+        .chat-message.user .bubble {
+        background: #1d9bf0;
+        color: #fff;
+        }
+
+        .chat-message.bot .bubble {
+        background: #141516;
+        color: #d6d8d9;
+        border: 1px solid #26292b;
+        }
+
+        .chat-input {
+        border-top: 1px solid #2f3336;
+        padding: 8px;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        }
+
+        .chat-textarea {
+        flex: 1 1 auto;
+        resize: none;
+        background: #0b0c0d;
+        border: 1px solid #222425;
+        color: #e7e9ea;
+        padding: 8px;
+        border-radius: 8px;
+        font-size: 13px;
+        }
+
+        .chat-send-btn {
+        background: linear-gradient(180deg, #1d9bf0, #1a8cd8);
+        color: #fff;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        }
+
+        @media (max-width: 480px) {
+        .chat-window { width: 90vw; right: 5vw; }
+        }
+
     </style>
     {% block extra_css %}{% endblock %}
     
@@ -263,5 +395,7 @@
     </footer> -->
 
     {% block extra_js %}{% endblock %}
+    {% include 'bot_interface.html' %}
+    <script src="{% static 'js/bot.js' %}"></script>
 </body>
 </html>
